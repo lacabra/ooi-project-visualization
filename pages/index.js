@@ -44,7 +44,7 @@ const alpha3 = {
 "Belarus": 'BLR', 
 "Belize": 'BLZ', 
 "Bermuda": 'BMU', 
-"Bolivia, Plurinational State of": 'BOL', 
+"Bolivia": 'BOL', 
 "Brazil": 'BRA', 
 "Barbados": 'BRB', 
 "Brunei Darussalam": 'BRN', 
@@ -265,6 +265,7 @@ export default function Home() {
   const [open, setOpen] = useState(true);
   const [countries, setCountries] = useState({});
   const [gigaCountries, setGigaCountries] = useState([]);
+  const [procoCountries, setProcoCountries] = useState([]);
   const [pathfinder, setPathfinder] = useState([]);
   const [fundCountries, setFundCountries] = useState([]);
 
@@ -287,11 +288,13 @@ export default function Home() {
       }
     }
     setCountries(c);
+    console.log(c)
   }
 
   function addFundCountries(results, label) {
     let c = countries;
     let f = []
+    console.log(results)
     for(let i = 0; i < results.length; i++){
       if(! alpha3[results[i].country]) {
         console.log('Mismatched '+results[i].country)
@@ -315,12 +318,12 @@ export default function Home() {
 
         c[alpha3[results[i].country]][label].investments.push({
           investment: results[i].investment,
-          co: results[i]['CO Project']
+          co: results[i].co
         })
 
         f[alpha3[results[i].country]].investments.push({
           investment: results[i].investment,
-          co: results[i]['CO Project']
+          co: results[i].co
         })
         
       }
@@ -337,6 +340,12 @@ export default function Home() {
     });
 
     let options2 = options;
+    options2.sheetNumber = 2;
+    GSheetReader(options2, results => {
+      setProcoCountries(results);
+      addCountries(results, 'proco');
+    });
+
     options2.sheetNumber = 3;
     GSheetReader(options2, results => {
       setPathfinder(results);
@@ -389,6 +398,16 @@ export default function Home() {
                   <NavText>
                       ProCo Countries
                   </NavText>
+                  {procoCountries.map( (country, index) => {
+                    return (
+                      <NavItem key={"pc-"+country.country}>
+                        <NavText>
+                          {country.country}
+                        </NavText>
+                      </NavItem>
+                      )
+                    })
+                  }
               </NavItem>
               <NavItem eventKey="pathfinder">
                   <NavIcon>

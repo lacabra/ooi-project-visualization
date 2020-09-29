@@ -65,18 +65,29 @@ export default function mapComponent(props) {
     				let gigaHtml = '';
     				let pathHtml = '';
     				let fundHtml = '';
+    				let procoHtml = '';
 
     				if(props.countries[countryCode].giga){
     					countryName = props.countries[countryCode].giga.country;
-    					gigaHtml = '✅ GIGA Country<br/>';
+    					gigaHtml = '✅&nbsp;&nbsp;GIGA Country<br/>';
     					if(props.countries[countryCode].giga.link) {
     						gigaHtml += '<ul><li><a href="' + props.countries[countryCode].giga.link + '" target="_blank">More info</a></li></ul>';
     					}
     				}
 
+    				console.log()
+    				if(props.countries[countryCode].proco){
+    					countryName = props.countries[countryCode].proco.country;
+    					procoHtml = '✅&nbsp;&nbsp;Project Connect<br/>';
+    					procoHtml += '<ul>';
+    					procoHtml += '<li><b>Location Data</b>: '+props.countries[countryCode].proco.location + '</li>';
+    					procoHtml += '<li><b>Connectivity Data</b>: '+props.countries[countryCode].proco.connectivity + "</li>";
+    					procoHtml += '</ul>';
+    				}
+
     				if(props.countries[countryCode].pathfinder) {
     					countryName = props.countries[countryCode].pathfinder.country;
-    					pathHtml = "✅ Pathfinder Country<br/>";
+    					pathHtml = "✅&nbsp;&nbsp;Pathfinder Country<br/>";
     					pathHtml += "<ul>";
     					pathHtml += "<li><b>Status:</b> " + props.countries[countryCode].pathfinder.status + "</li>";
     					if(props.countries[countryCode].pathfinder.sector) {
@@ -90,11 +101,10 @@ export default function mapComponent(props) {
     					countryName = props.countries[countryCode].fund.country;
     					fundHtml = "✅&nbsp;&nbsp;Venture Fund Investments<br/>";
     					fundHtml += "<ul>";
-    					console.log(props.countries[countryCode].fund.investments)
     					for(let i=0; i < props.countries[countryCode].fund.investments.length; i++) {
     						fundHtml += "<li>"+props.countries[countryCode].fund.investments[i].investment
-    						if(props.countries[countryCode].fund.investments[i]['CO Project']) {
-    							fundHtml += "🌐"
+    						if(props.countries[countryCode].fund.investments[i].co) {
+    							fundHtml += "&nbsp;🌐"
     						}
     						fundHtml += "</li>";
     					}
@@ -104,6 +114,7 @@ export default function mapComponent(props) {
 
     				var html = `<h3>${countryName}</h3>
     				${gigaHtml}
+    				${procoHtml}
     				${pathHtml}
     				${fundHtml}`;
 
