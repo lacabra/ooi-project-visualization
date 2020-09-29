@@ -64,6 +64,7 @@ export default function mapComponent(props) {
     				let countryName = '';
     				let gigaHtml = '';
     				let pathHtml = '';
+    				let fundHtml = '';
 
     				if(props.countries[countryCode].giga){
     					countryName = props.countries[countryCode].giga.country;
@@ -73,7 +74,7 @@ export default function mapComponent(props) {
     					}
     				}
 
-    				if(props.countries[countryCode].pathfinder){
+    				if(props.countries[countryCode].pathfinder) {
     					countryName = props.countries[countryCode].pathfinder.country;
     					pathHtml = "✅ Pathfinder Country<br/>";
     					pathHtml += "<ul>";
@@ -85,10 +86,26 @@ export default function mapComponent(props) {
     						pathHtml += "<li><b>Comments:</b> " + props.countries[countryCode].pathfinder.comments + "</li>";
     					}
     				}
+    				if(props.countries[countryCode].fund) {
+    					countryName = props.countries[countryCode].fund.country;
+    					fundHtml = "✅&nbsp;&nbsp;Venture Fund Investments<br/>";
+    					fundHtml += "<ul>";
+    					console.log(props.countries[countryCode].fund.investments)
+    					for(let i=0; i < props.countries[countryCode].fund.investments.length; i++) {
+    						fundHtml += "<li>"+props.countries[countryCode].fund.investments[i].investment
+    						if(props.countries[countryCode].fund.investments[i]['CO Project']) {
+    							fundHtml += "🌐"
+    						}
+    						fundHtml += "</li>";
+    					}
+    					fundHtml += "</ul>";
+    				}
+
 
     				var html = `<h3>${countryName}</h3>
     				${gigaHtml}
-    				${pathHtml}`;
+    				${pathHtml}
+    				${fundHtml}`;
 
 			        new mapboxgl.Popup() //Create a new popup
 			          .setLngLat(mapElement.lngLat) // Set where we want it to appear (where we clicked)

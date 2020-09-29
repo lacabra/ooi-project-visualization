@@ -4,6 +4,8 @@ import dynamic from 'next/dynamic';
 import React, { useState, useEffect } from 'react';
 
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import Badge from 'react-bootstrap/Badge';
+
 
 import GigaCountries from '../components/gigaCountries';
 
@@ -57,7 +59,7 @@ const alpha3 = {
 "China": 'CHN', 
 "Côte d'Ivoire": 'CIV', 
 "Cameroon": 'CMR', 
-"Congo, the Democratic Republic of the": 'COD', 
+"Congo, DRC": 'COD', 
 "Congo": 'COG', 
 "Cook Islands": 'COK', 
 "Colombia": 'COL', 
@@ -194,7 +196,7 @@ const alpha3 = {
 "Korea, Democratic People's Republic of": 'PRK', 
 "Portugal": 'PRT', 
 "Paraguay": 'PRY', 
-"Palestinian Territory, Occupied": 'PSE', 
+"Palestine": 'PSE', 
 "French Polynesia": 'PYF', 
 "Qatar": 'QAT', 
 "Réunion": 'REU', 
@@ -222,7 +224,7 @@ const alpha3 = {
 "Sweden": 'SWE', 
 "Swaziland": 'SWZ', 
 "Seychelles": 'SYC', 
-"Syrian Arab Republic": 'SYR', 
+"Syria": 'SYR', 
 "Turks and Caicos Islands": 'TCA', 
 "Chad": 'TCD', 
 "Togo": 'TGO', 
@@ -237,7 +239,7 @@ const alpha3 = {
 "Turkey": 'TUR', 
 "Tuvalu": 'TUV', 
 "Taiwan, Province of China": 'TWN', 
-"Tanzania, United Republic of": 'TZA', 
+"Tanzania": 'TZA', 
 "Uganda": 'UGA', 
 "Ukraine": 'UKR', 
 "United States Minor Outlying Islands": 'UMI', 
@@ -264,6 +266,7 @@ export default function Home() {
   const [countries, setCountries] = useState({});
   const [gigaCountries, setGigaCountries] = useState([]);
   const [pathfinder, setPathfinder] = useState([]);
+  const [fundCountries, setFundCountries] = useState([]);
 
   const options = {
     sheetId: process.env.NEXT_PUBLIC_SHEET,
@@ -286,20 +289,63 @@ export default function Home() {
     setCountries(c);
   }
 
+  function addFundCountries(results, label) {
+    let c = countries;
+    let f = []
+    for(let i = 0; i < results.length; i++){
+      if(! alpha3[results[i].country]) {
+        console.log('Mismatched '+results[i].country)
+      } else {
+        if( ! Object.keys(c).find( e => e == alpha3[results[i].country])) {
+          c[alpha3[results[i].country]] = {}
+        }
+        if( ! f[alpha3[results[i].country]]) {
+          f[alpha3[results[i].country]] = { 
+            country: results[i].country,
+            investments: []
+          }
+        }
+
+        if( ! c[alpha3[results[i].country]][label]) {
+          c[alpha3[results[i].country]][label] = { 
+            country: results[i].country,
+            investments: []
+          }
+        }
+
+        c[alpha3[results[i].country]][label].investments.push({
+          investment: results[i].investment,
+          co: results[i]['CO Project']
+        })
+
+        f[alpha3[results[i].country]].investments.push({
+          investment: results[i].investment,
+          co: results[i]['CO Project']
+        })
+        
+      }
+    }
+    setFundCountries(f);
+    setCountries(c); 
+  }
+
   useEffect(() => {
     
     GSheetReader(options, results => {
       setGigaCountries(results);
       addCountries(results, 'giga');
-      console.log(countries);
     });
 
     let options2 = options;
     options2.sheetNumber = 3;
-    GSheetReader(options, results => {
+    GSheetReader(options2, results => {
       setPathfinder(results);
       addCountries(results, 'pathfinder');
-      console.log(countries);
+    });
+
+    options2.sheetNumber = 4;
+    GSheetReader(options2, results => {
+      addFundCountries(results, 'fund');
     });
 
   }, []);
@@ -314,6 +360,7 @@ export default function Home() {
           onSelect={(selected) => {
               // Add your code here
           }}
+          style={{ bottom: "auto", minHeight: "100%"}}
       >
           <SideNav.Toggle />
           <SideNav.Nav defaultSelected="home">
@@ -326,7 +373,7 @@ export default function Home() {
                   </NavText>
                   {gigaCountries.map( (country, index) => {
                     return (
-                      <NavItem key={country.country}>
+                      <NavItem key={"g-"+country.country}>
                         <NavText>
                           {country.country}
                         </NavText>
@@ -352,7 +399,7 @@ export default function Home() {
                   </NavText>
                   {pathfinder.map( (country, index) => {
                     return (
-                      <NavItem key={country.country}>
+                      <NavItem key={"p-"+country.country}>
                         <NavText>
                           {country.country}
                         </NavText>
@@ -368,14 +415,28 @@ export default function Home() {
                   <NavText>
                       Venture Fund
                   </NavText>
+                  {Object.values(fundCountries).map( (country, index) => {
+                    return (
+                      <NavItem key={"f-"+country.country}>
+                        <NavText>
+                          {country.country}&nbsp;&nbsp;
+                          <Badge pill variant="light">
+                            {country.investments.length}
+                          </Badge>
+                        </NavText>
+                      </NavItem>
+                      )
+                    })
+                  }
               </NavItem>
-
-              
+ 
           </SideNav.Nav>
       </SideNav>
 
-      <MapComponent lon="-14" lat="24.5" countries={countries}/>      
+      <MapComponent lon="-14" lat="24.5" countries={countries}/>  
 
     </div>
   )
 }
+    
+
