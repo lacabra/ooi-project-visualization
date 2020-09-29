@@ -68,6 +68,9 @@ export default function mapComponent(props) {
     				if(props.countries[countryCode].giga){
     					countryName = props.countries[countryCode].giga.country;
     					gigaHtml = '✅ GIGA Country<br/>';
+    					if(props.countries[countryCode].giga.link) {
+    						gigaHtml += '<ul><li><a href="' + props.countries[countryCode].giga.link + '" target="_blank">More info</a></li></ul>';
+    					}
     				}
 
     				if(props.countries[countryCode].pathfinder){
