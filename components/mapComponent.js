@@ -96,6 +96,7 @@ export default function mapComponent(props) {
     					if(props.countries[countryCode].pathfinder.comments) {
     						pathHtml += "<li><b>Comments:</b> " + props.countries[countryCode].pathfinder.comments + "</li>";
     					}
+    					pathHtml += "</ul>";
     				}
     				if(props.countries[countryCode].fund) {
     					countryName = props.countries[countryCode].fund.country;
