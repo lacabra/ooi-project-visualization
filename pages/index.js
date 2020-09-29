@@ -414,7 +414,7 @@ export default function Home() {
                       <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
                   </NavIcon>
                   <NavText>
-                      Pathfinder Countries
+                      DPG Pathfinder Countries
                   </NavText>
                   {pathfinder.map( (country, index) => {
                     return (

@@ -87,7 +87,7 @@ export default function mapComponent(props) {
 
     				if(props.countries[countryCode].pathfinder) {
     					countryName = props.countries[countryCode].pathfinder.country;
-    					pathHtml = "✅&nbsp;&nbsp;Pathfinder Country<br/>";
+    					pathHtml = "✅&nbsp;&nbsp;DPG Pathfinder Country<br/>";
     					pathHtml += "<ul>";
     					pathHtml += "<li><b>Status:</b> " + props.countries[countryCode].pathfinder.status + "</li>";
     					if(props.countries[countryCode].pathfinder.sector) {
