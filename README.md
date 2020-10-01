@@ -1,3 +1,5 @@
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) 
+
 <h1 align="center">Visualization of UNICEF Office of Innovation (OoI)<br/> Activities by Country</h1>
 
 This repository was conceived as a very simple tool to visualize on a map the various workstreams that are currenty underway at the UNICEF Office of Innovation organized by country. 
