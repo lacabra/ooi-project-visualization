@@ -487,7 +487,7 @@ export default function Home() {
           <div style={{float: "left", padding: "2em 2em", position: "absolute", bottom:"0"}}>
             📂&nbsp;&nbsp;<a href="https://docs.google.com/spreadsheets/d/1-pd7DeLfr1EhRuu07IeAw2rZHfpU5Oagv3_L8COszCw/edit?usp=sharing" target="_blank">Edit the data</a><br/>
             <br/>
-            <img src="/github.jpeg" width="20" />&nbsp;&nbsp;<a href="https://github.com/lacabra/visual" target="_blank">Source code</a>
+            <img src="/github.jpeg" width="20" />&nbsp;&nbsp;<a href="https://github.com/lacabra/ooi-project-visualization" target="_blank">Source code</a>
           </div>
 
       </SideNav>
