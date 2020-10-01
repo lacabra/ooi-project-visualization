@@ -1,15 +1,9 @@
 import Head from 'next/head';
 import dynamic from 'next/dynamic';
-
 import React, { useState, useEffect } from 'react';
-
+import GSheetReader from 'g-sheets-api';
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import Badge from 'react-bootstrap/Badge';
-
-import GigaCountries from '../components/gigaCountries';
-
-
-import GSheetReader from 'g-sheets-api';
 
 const alpha3 = {
 "Aruba": 'ABW', 

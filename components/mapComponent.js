@@ -50,7 +50,7 @@ export default function mapComponent(props) {
 
                 map.addLayer({
                     // adding a layer containing the tileset with country boundaries
-                    id: 'fund', //this is the name of our layer, which we will need later
+                    id: 'Venture Fund', //this is the name of our layer, which we will need later
                     source: {
                       type: 'vector',
                       url: 'mapbox://lacabra00.dvl2fpqx', 
@@ -63,10 +63,10 @@ export default function mapComponent(props) {
                       'fill-opacity': 0.2,
                     },
                 }, firstSymbolId)
-                map.setLayoutProperty('fund', 'visibility', 'visible');
+                map.setLayoutProperty('Venture Fund', 'visibility', 'visible');
 
                 map.setFilter(
-                    'fund',
+                    'Venture Fund',
                     ['in', 'ADM0_A3_IS'].concat(Object.keys(props.fundCountries)),
                   ); // This line lets us filter by country codes.
 
@@ -74,7 +74,7 @@ export default function mapComponent(props) {
 				// Ref: https://dev.to/wuz/building-a-country-highlighting-tool-with-mapbox-2kbh
 				map.addLayer({
 					// adding a layer containing the tileset with country boundaries
-					id: 'giga', //this is the name of our layer, which we will need later
+					id: 'Giga Countries', //this is the name of our layer, which we will need later
 					source: {
 					  type: 'vector',
 					  url: 'mapbox://lacabra00.dvl2fpqx', 
@@ -87,16 +87,16 @@ export default function mapComponent(props) {
                       "fill-pattern": "red-dots",
 					},
 				}, firstSymbolId)
-                map.setLayoutProperty('giga', 'visibility', 'visible');
+                map.setLayoutProperty('Giga Countries', 'visibility', 'visible');
 
 				map.setFilter(
-				    'giga',
+				    'Giga Countries',
 				    ['in', 'ADM0_A3_IS'].concat(Object.keys(props.gigaCountries)),
 				  ); // This line lets us filter by country codes.
 
                 map.addLayer({
                     // adding a layer containing the tileset with country boundaries
-                    id: 'proco', //this is the name of our layer, which we will need later
+                    id: 'ProCo Countries', //this is the name of our layer, which we will need later
                     source: {
                       type: 'vector',
                       url: 'mapbox://lacabra00.dvl2fpqx', 
@@ -108,16 +108,16 @@ export default function mapComponent(props) {
                       'fill-opacity': 0.2,
                     },
                 }, firstSymbolId)
-                map.setLayoutProperty('proco', 'visibility', 'visible');
+                map.setLayoutProperty('ProCo Countries', 'visibility', 'visible');
 
                 map.setFilter(
-                    'proco',
+                    'ProCo Countries',
                     ['in', 'ADM0_A3_IS'].concat(Object.keys(props.procoCountries)),
                   ); // This line lets us filter by country codes.
 
                 map.addLayer({
                     // adding a layer containing the tileset with country boundaries
-                    id: 'pathfinder', //this is the name of our layer, which we will need later
+                    id: 'DPG Pathfinders', //this is the name of our layer, which we will need later
                     source: {
                       type: 'vector',
                       url: 'mapbox://lacabra00.dvl2fpqx', 
@@ -128,10 +128,10 @@ export default function mapComponent(props) {
                        "fill-pattern": "grey-lines",
                     },
                 }, firstSymbolId)
-                map.setLayoutProperty('pathfinder', 'visibility', 'visible');
+                map.setLayoutProperty('DPG Pathfinders', 'visibility', 'visible');
 
                 map.setFilter(
-                    'pathfinder',
+                    'DPG Pathfinders',
                     ['in', 'ADM0_A3_IS'].concat(Object.keys(props.pathfinderCountries)),
                   ); // This line lets us filter by country codes.
 
@@ -224,7 +224,7 @@ export default function mapComponent(props) {
                 });
 
                 // enumerate ids of the layers
-                var toggleableLayerIds = ['pathfinder', 'proco', 'giga', 'fund'];
+                var toggleableLayerIds = ['Giga Countries', 'ProCo Countries', 'DPG Pathfinders', 'Venture Fund'];
                  
                 // set up the corresponding toggle button for each layer
                 for (var i = 0; i < toggleableLayerIds.length; i++) {
