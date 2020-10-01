@@ -24,7 +24,7 @@ export default function mapComponent(props) {
 
 	return (
 		<Map
-			style="mapbox://styles/mapbox/light-v10"
+			style="mapbox://styles/lacabra00/ckfqtcdnj11ty19t3stjs11dq"
 			center= {lonLat}
 			zoom={[zoom]}
 			containerStyle={{ width: '100%', height: '100%' }}
@@ -48,10 +48,32 @@ export default function mapComponent(props) {
                     }
                 }
 
+                map.addLayer({
+                    // adding a layer containing the tileset with country boundaries
+                    id: 'fund', //this is the name of our layer, which we will need later
+                    source: {
+                      type: 'vector',
+                      url: 'mapbox://lacabra00.dvl2fpqx', 
+                    },
+                    'source-layer': 'ne_10m_admin_0_countries-arkt75', 
+                    type: 'fill',
+                    paint: {
+                      // 'fill-color': '#db3d44', // this is the color you want your tileset to have (red)
+                      'fill-color': '#1CABE2', //this helps us distinguish individual countries a bit better by giving them an outline
+                      'fill-opacity': 0.2,
+                    },
+                }, firstSymbolId)
+
+                map.setFilter(
+                    'fund',
+                    ['in', 'ADM0_A3_IS'].concat(Object.keys(props.fundCountries)),
+                  ); // This line lets us filter by country codes.
+
+
 				// Ref: https://dev.to/wuz/building-a-country-highlighting-tool-with-mapbox-2kbh
 				map.addLayer({
 					// adding a layer containing the tileset with country boundaries
-					id: 'countries', //this is the name of our layer, which we will need later
+					id: 'giga', //this is the name of our layer, which we will need later
 					source: {
 					  type: 'vector',
 					  url: 'mapbox://lacabra00.dvl2fpqx', 
@@ -59,15 +81,77 @@ export default function mapComponent(props) {
 					'source-layer': 'ne_10m_admin_0_countries-arkt75', 
 					type: 'fill',
 					paint: {
-					  'fill-color': '#db3d44', // this is the color you want your tileset to have (red)
-					  'fill-outline-color': '#F2F2F2', //this helps us distinguish individual countries a bit better by giving them an outline
+					  // 'fill-color': '#db3d44', // this is the color you want your tileset to have (red)
+					  // 'fill-outline-color': '#F2F2F2', //this helps us distinguish individual countries a bit better by giving them an outline
+                      "fill-pattern": "red-dots",
 					},
 				}, firstSymbolId)
 
 				map.setFilter(
-				    'countries',
-				    ['in', 'ADM0_A3_IS'].concat(Object.keys(props.countries)),
+				    'giga',
+				    ['in', 'ADM0_A3_IS'].concat(Object.keys(props.gigaCountries)),
 				  ); // This line lets us filter by country codes.
+
+                
+                map.addLayer({
+                    // adding a layer containing the tileset with country boundaries
+                    id: 'proco', //this is the name of our layer, which we will need later
+                    source: {
+                      type: 'vector',
+                      url: 'mapbox://lacabra00.dvl2fpqx', 
+                    },
+                    'source-layer': 'ne_10m_admin_0_countries-arkt75', 
+                    type: 'fill',
+                    paint: {
+                      'fill-color': 'yellow', //this helps us distinguish individual countries a bit better by giving them an outline
+                      'fill-opacity': 0.2,
+                    },
+                }, firstSymbolId)
+
+                map.setFilter(
+                    'proco',
+                    ['in', 'ADM0_A3_IS'].concat(Object.keys(props.procoCountries)),
+                  ); // This line lets us filter by country codes.
+
+                map.addLayer({
+                    // adding a layer containing the tileset with country boundaries
+                    id: 'pathfinder', //this is the name of our layer, which we will need later
+                    source: {
+                      type: 'vector',
+                      url: 'mapbox://lacabra00.dvl2fpqx', 
+                    },
+                    'source-layer': 'ne_10m_admin_0_countries-arkt75', 
+                    type: 'fill',
+                    paint: {
+                       "fill-pattern": "grey-lines",
+                    },
+                }, firstSymbolId)
+
+                map.setFilter(
+                    'pathfinder',
+                    ['in', 'ADM0_A3_IS'].concat(Object.keys(props.pathfinderCountries)),
+                  ); // This line lets us filter by country codes.
+
+                map.addLayer({
+                    // adding a layer containing the tileset with country boundaries
+                    id: 'countries', //this is the name of our layer, which we will need later
+                    source: {
+                      type: 'vector',
+                      url: 'mapbox://lacabra00.dvl2fpqx', 
+                    },
+                    'source-layer': 'ne_10m_admin_0_countries-arkt75', 
+                    type: 'fill',
+                    paint: {
+                      'fill-color': 'white', //this helps us distinguish individual countries a bit better by giving them an outline
+                      'fill-opacity': 0,
+                    },
+                }, firstSymbolId)
+
+                map.setFilter(
+                    'countries',
+                    ['in', 'ADM0_A3_IS'].concat(Object.keys(props.countries)),
+                  ); // This line lets us filter by country codes.
+
 
 				map.on('click', 'countries', function(mapElement) {
     				const countryCode = mapElement.features[0].properties.ADM0_A3_IS; // Grab the country code from the map properties.

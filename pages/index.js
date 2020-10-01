@@ -276,6 +276,7 @@ export default function Home() {
   }
 
   function addCountries(results, label) {
+    let l = [];
     let c = countries;
     for(let i = 0; i < results.length; i++){
       if(! alpha3[results[i].country]) {
@@ -285,10 +286,22 @@ export default function Home() {
           c[alpha3[results[i].country]] = {}
         }
         c[alpha3[results[i].country]][label] = results[i];
+
+        l[alpha3[results[i].country]] = results[i];
       }
     }
     setCountries(c);
-    console.log(c)
+    switch(label) {
+      case 'giga':
+        setGigaCountries(l);
+        break;
+      case 'proco':
+        setProcoCountries(l);
+        break;
+      case 'pathfinder':
+        setPathfinder(l);
+        break;
+    }
   }
 
   function addFundCountries(results, label) {
@@ -335,20 +348,17 @@ export default function Home() {
   useEffect(() => {
     
     GSheetReader(options, results => {
-      setGigaCountries(results);
       addCountries(results, 'giga');
     });
 
     let options2 = options;
     options2.sheetNumber = 2;
     GSheetReader(options2, results => {
-      setProcoCountries(results);
       addCountries(results, 'proco');
     });
 
     options2.sheetNumber = 3;
     GSheetReader(options2, results => {
-      setPathfinder(results);
       addCountries(results, 'pathfinder');
     });
 
@@ -369,21 +379,23 @@ export default function Home() {
           onSelect={(selected) => {
               // Add your code here
           }}
-          style={{ bottom: "auto", minHeight: "100%"}}
+          style={{ bottom: "auto", minHeight: "100%", background: "white"}}
       >
-          <SideNav.Toggle />
+          <SideNav.Toggle style={{ color: "black"}}/>
           <SideNav.Nav defaultSelected="home">
               <NavItem eventKey="giga">
                   <NavIcon>
                       <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
                   </NavIcon>
-                  <NavText>
-                      GIGA Countries
+                  <NavText style={{ color: "black"}}>
+                      <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' style={{border: "1px solid black", background: 'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgogIDxjaXJjbGUgY3g9IjQiIGN5PSI0IiByPSIxIiBmaWxsPSJyZWQiPjwvY2lyY2xlPgo8L3N2Zz4=")'}}>
+                      </svg>
+                      &nbsp; GIGA Countries
                   </NavText>
-                  {gigaCountries.map( (country, index) => {
+                  {Object.values(gigaCountries).map( (country, index) => {
                     return (
                       <NavItem key={"g-"+country.country}>
-                        <NavText>
+                        <NavText style={{ color: "black"}}>
                           {country.country}
                         </NavText>
                       </NavItem>
@@ -395,13 +407,15 @@ export default function Home() {
                   <NavIcon>
                       <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
                   </NavIcon>
-                  <NavText>
-                      ProCo Countries
+                  <NavText style={{ color: "black"}}>
+                      <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' style={{border: "1px solid black", backgroundColor: "yellow", opacity: 0.2}} >
+                      </svg>
+                      &nbsp; ProCo Countries
                   </NavText>
-                  {procoCountries.map( (country, index) => {
+                  {Object.values(procoCountries).map( (country, index) => {
                     return (
                       <NavItem key={"pc-"+country.country}>
-                        <NavText>
+                        <NavText style={{ color: "black"}}>
                           {country.country}
                         </NavText>
                       </NavItem>
@@ -413,13 +427,15 @@ export default function Home() {
                   <NavIcon>
                       <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
                   </NavIcon>
-                  <NavText>
-                      DPG Pathfinder Countries
+                  <NavText style={{ color: "black"}}>
+                      <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' style={{border: "1px solid black", background: 'url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cGF0aCBkPSJNLTIgMTBMMTAgLTJaTTEwIDZMNiAxMFpNLTIgMkwyIC0yIiBzdHJva2U9IiMyMjIiIHN0cm9rZS13aWR0aD0iMiI+PC9wYXRoPgo8L3N2Zz4=")'}}>
+                      </svg>
+                      &nbsp; DPG Pathfinders
                   </NavText>
-                  {pathfinder.map( (country, index) => {
+                  {Object.values(pathfinder).map( (country, index) => {
                     return (
                       <NavItem key={"p-"+country.country}>
-                        <NavText>
+                        <NavText style={{ color: "black"}}>
                           {country.country}
                         </NavText>
                       </NavItem>
@@ -431,15 +447,17 @@ export default function Home() {
                   <NavIcon>
                       <i className="fa fa-fw fa-line-chart" style={{ fontSize: '1.75em' }} />
                   </NavIcon>
-                  <NavText>
-                      Venture Fund
+                  <NavText style={{ color: "black"}}>
+                      <svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' style={{border: "1px solid black", backgroundColor: "cyan", opacity: 0.2}} >
+                      </svg>
+                      &nbsp; Venture Fund
                   </NavText>
                   {Object.values(fundCountries).map( (country, index) => {
                     return (
                       <NavItem key={"f-"+country.country}>
-                        <NavText>
+                        <NavText style={{ color: "black"}}>
                           {country.country}&nbsp;&nbsp;
-                          <Badge pill variant="light">
+                          <Badge pill variant="info">
                             {country.investments.length}
                           </Badge>
                         </NavText>
@@ -452,10 +470,16 @@ export default function Home() {
           </SideNav.Nav>
       </SideNav>
 
-      <MapComponent lon="-14" lat="24.5" countries={countries}/>  
+      <MapComponent 
+        lon="-14" 
+        lat="24.5" 
+        countries={countries} 
+        gigaCountries={gigaCountries} 
+        procoCountries={procoCountries}
+        fundCountries={fundCountries}
+        pathfinderCountries={pathfinder}
+      />  
 
     </div>
   )
 }
-    
-
