@@ -37,6 +37,17 @@ export default function mapComponent(props) {
 				}
 			}
 			onStyleLoad={(map, loadEvent) => {
+
+                var layers = map.getStyle().layers;
+                // Find the index of the first symbol layer in the map style
+                var firstSymbolId;
+                for (var i = 0; i < layers.length; i++) {
+                    if (layers[i].type === 'symbol') {
+                        firstSymbolId = layers[i].id;
+                        break;
+                    }
+                }
+
 				// Ref: https://dev.to/wuz/building-a-country-highlighting-tool-with-mapbox-2kbh
 				map.addLayer({
 					// adding a layer containing the tileset with country boundaries
@@ -51,7 +62,7 @@ export default function mapComponent(props) {
 					  'fill-color': '#db3d44', // this is the color you want your tileset to have (red)
 					  'fill-outline-color': '#F2F2F2', //this helps us distinguish individual countries a bit better by giving them an outline
 					},
-				})
+				}, firstSymbolId)
 
 				map.setFilter(
 				    'countries',
