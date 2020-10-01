@@ -6,7 +6,6 @@ import React, { useState, useEffect } from 'react';
 import SideNav, { Toggle, Nav, NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import Badge from 'react-bootstrap/Badge';
 
-
 import GigaCountries from '../components/gigaCountries';
 
 
@@ -269,6 +268,9 @@ export default function Home() {
   const [pathfinder, setPathfinder] = useState([]);
   const [fundCountries, setFundCountries] = useState([]);
 
+  const [gigaChecked, setGigaChecked] = useState(true);
+
+
   const options = {
     sheetId: process.env.NEXT_PUBLIC_SHEET,
     sheetNumber: 1,
@@ -373,6 +375,15 @@ export default function Home() {
     ssr: false
   })
 
+  function handleChange(event){
+    switch(event.target.id){
+      case 'giga':
+        setGigaChecked(!gigaChecked);
+        setGigaCountries([])
+    }
+    
+  }
+
   return (
     <div className="main">
       <SideNav
@@ -380,6 +391,7 @@ export default function Home() {
               // Add your code here
           }}
           style={{ bottom: "auto", minHeight: "100%", background: "white"}}
+          expanded={true}
       >
           <SideNav.Toggle style={{ color: "black"}}/>
           <SideNav.Nav defaultSelected="home">
@@ -468,6 +480,7 @@ export default function Home() {
               </NavItem>
  
           </SideNav.Nav>
+
       </SideNav>
 
       <MapComponent 
@@ -479,6 +492,8 @@ export default function Home() {
         fundCountries={fundCountries}
         pathfinderCountries={pathfinder}
       />  
+      <ul id="menu"></ul>
+
 
     </div>
   )
